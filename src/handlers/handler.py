@@ -5,6 +5,7 @@ import os, webapp2
 from src import main
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
+from google.appengine.api import urlfetch
 
 class MainHandler(webapp2.RequestHandler):
     """
@@ -28,12 +29,15 @@ class MainHandler(webapp2.RequestHandler):
         logging.debug(kwargs)
         logging.debug(args)
         
-        #ここでWebAPIを呼ぶ
-        #今はダミー実装しておく
-        param = {
-                "data1": "POST Method",
-                "data2": datetime.datetime.today() + datetime.timedelta(hours=9),
-                 }
+        #ここでWebAPIを呼ぶ    
+        url = "http://localhost:10080/api"  #urlはローカル開発サーバ用とする。とりあえず。
+        result = urlfetch.fetch(url)
+        if result.status_code == 200:
+            param = json.loads(result.content)
+            logging.debug(param)
+        else:
+            param = { "data1": "urlfetch error." }
+
         fpath = os.path.join(main.TEMPLATEPATH, "index.html")
         html = template.render(fpath, param)
         self.response.out.write(html)
