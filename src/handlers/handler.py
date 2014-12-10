@@ -1,8 +1,7 @@
 #　-*- coding: utf-8 -*-
 import logging
-import json
-import os
-import webapp2
+import json, datetime
+import os, webapp2
 from src import main
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
@@ -20,13 +19,25 @@ class MainHandler(webapp2.RequestHandler):
         logging.debug(kwargs)
         logging.debug(args)
 
-        params = {
-                  "param1": "param1",
-                  "param2": "param2",
-                  }
         fpath = os.path.join(main.TEMPLATEPATH, "index.html")
-        html = template.render(fpath, params)
+        html = template.render(fpath, None)
         self.response.out.write(html)
+        
+    def post(self, *args, **kwargs):
+        logging.debug("query_string=" + self.request.query_string)
+        logging.debug(kwargs)
+        logging.debug(args)
+        
+        #ここでWebAPIを呼ぶ
+        #今はダミー実装しておく
+        param = {
+                "data1": "POST Method",
+                "data2": datetime.datetime.today() + datetime.timedelta(hours=9),
+                 }
+        fpath = os.path.join(main.TEMPLATEPATH, "index.html")
+        html = template.render(fpath, param)
+        self.response.out.write(html)
+        
 
 class APIHandler(webapp2.RequestHandler):
     """
@@ -43,8 +54,8 @@ class APIHandler(webapp2.RequestHandler):
         logging.debug(args)
 
         json_data = {
-                "data1": "data-1",
-                "data2": "data-2",
+                "data1": "WebAPI",
+                "data2": (datetime.datetime.today() + datetime.timedelta(hours=9)).strftime("%Y/%m/%d %H:%M:%S"),
                 }
         #文字列にシリアライズ
         json_str = json.dumps(json_data, sort_keys=True)

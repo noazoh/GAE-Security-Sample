@@ -33,14 +33,30 @@ Remove this if you use the .htaccess -->
 </header>
 <div class="jumbotron">		
 	<div class="row">
-	<button type="button" id="myButton" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
-	call API
+	<button type="button" id="myButton1" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+	call API in client
 	</button>
 	</div>
 	
 	<div class="row">
-	<div class="alert alert-warning" id="divResult">
-		結果
+	<div class="alert alert-warning" id="divResult1">
+		<div>結果</div>
+	</div>
+	</div>
+</div>
+
+<div class="jumbotron">		
+	<div class="row">
+	<button type="button" id="myButton2" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+	call API in server
+	</button>
+	</div>
+	
+	<div class="row">
+	<div class="alert alert-warning" id="divResult2">
+		<div>結果</div>
+		<div>data1:{{data1}}</div>
+		<div>data2:{{data2}}</div>
 	</div>
 	</div>
 </div>
@@ -52,7 +68,10 @@ Remove this if you use the .htaccess -->
 <script type="text/javascript">
 var gJqxHandler = null;	//ajax重複送信チェック用
 
-$('#myButton').click(function () {
+/*
+ * WebAPIをクライアント側で呼び、結果をDOMで反映する
+ */
+$('#myButton1').click(function () {
 	//重複送信を防ぐ
 	if (gJqxHandler != null) { console.debug("重複"); return; }
 
@@ -66,11 +85,11 @@ $('#myButton').click(function () {
 	.done(function(json) {
         // 通信が成功したときの処理
 		console.log(json);
-		$("#divResult").html("<div>" + json.data1 + "</div><div>" + json.data2 + "</div>");		
+		$("#divResult1").html("<div>" + json.data1 + "</div><div>" + json.data2 + "</div>");		
     })
     .fail(function(json) {
         // 通信が失敗したときの処理
-		$("#divResult").html("<p>検索結果取得失敗</p><p>" + json + "</p>");
+		$("#divResult1").html("<p>検索結果取得失敗</p><p>" + json + "</p>");
     })
     .always(function(json) {
         // 通信が完了したとき        
@@ -79,7 +98,17 @@ $('#myButton').click(function () {
 	    //重複送信制御クリア
 	    gJqxHandler = null;
     });   
+});
 
+/*
+ * WebAPIをサーバ側で呼び、結果を埋め込んだHTMLを受け取る
+ */
+$('#myButton2').click(function () {
+	var form = document.createElement('form');
+	form.action = '/';
+	form.method = 'post';
+	document.body.appendChild(form);
+	form.submit();
 });
 </script>					
 </body>

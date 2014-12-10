@@ -1,3 +1,4 @@
+#　-*- coding: utf-8 -*-
 #!/usr/bin/env python
 #
 # Copyright 2007 Google Inc.
@@ -15,8 +16,7 @@
 # limitations under the License.
 #
 import logging
-import os
-import webapp2
+import os, webapp2
 from google.appengine.ext.webapp import template
 
 ROOTPATH = os.path.dirname(__file__)
