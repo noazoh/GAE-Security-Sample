@@ -29,7 +29,7 @@ class MainHandler(webapp2.RequestHandler):
         logging.debug(args)
         
         #ここでWebAPIを呼ぶ    
-        url = "http://localhost:10080/api"  #urlはローカル開発サーバ用とする。とりあえず。
+        url = "https://plumplan-sandbox.appspot.com//api"
         result = urlfetch.fetch(url)
         if result.status_code == 200:
             param = json.loads(result.content)

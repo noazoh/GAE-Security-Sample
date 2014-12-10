@@ -1,5 +1,5 @@
-application: security-sample
-version: 1
+application: sandbox
+version: security-sample
 runtime: python27
 api_version: 1
 threadsafe: yes
