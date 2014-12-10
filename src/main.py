@@ -26,7 +26,7 @@ HANDLERSPATH = 'src.handlers.'
 
 routes = [
           webapp2.Route('/', handler=HANDLERSPATH + 'handler.MainHandler'),
-          webapp2.Route('/api', handler=HANDLERSPATH + 'handler.APIHandler'),
+          webapp2.Route('/api', handler=HANDLERSPATH + 'api_handler.APIHandler'),
           ]
 
 app = webapp2.WSGIApplication(routes, debug=True)
